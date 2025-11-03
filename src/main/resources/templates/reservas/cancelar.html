@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancelar Reserva - Sistema de Agendamento</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href="@{/}">
+                <i class="bi bi-calendar-check"></i> Sistema de Agendamento
+            </a>
+        </div>
+    </nav>
+    
+    <div class="container mt-4">
+        <h1><i class="bi bi-x-circle"></i> Cancelar Reserva</h1>
+        
+        <div th:if="${erro}" class="alert alert-danger alert-dismissible fade show">
+            <span th:text="${erro}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Dados da Reserva (Somente Leitura)</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-3">ID:</dt>
+                    <dd class="col-sm-9" th:text="${reservationDTO.id}"></dd>
+                    
+                    <dt class="col-sm-3">Colaborador:</dt>
+                    <dd class="col-sm-9" th:text="${reservationDTO.nomeColaborador}"></dd>
+                    
+                    <dt class="col-sm-3">Recurso:</dt>
+                    <dd class="col-sm-9" th:text="${reservationDTO.descricaoRecurso}"></dd>
+                    
+                    <dt class="col-sm-3">Data:</dt>
+                    <dd class="col-sm-9" th:text="${#temporals.format(reservationDTO.data, 'dd/MM/yyyy')}"></dd>
+                    
+                    <dt class="col-sm-3">Horário:</dt>
+                    <dd class="col-sm-9">
+                        <span th:text="${#temporals.format(reservationDTO.horaInicial, 'HH:mm')}"></span>
+                        - 
+                        <span th:text="${#temporals.format(reservationDTO.horaFinal, 'HH:mm')}"></span>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Confirmar Cancelamento</h5>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/reservas/{id}/cancelar(id=${reservationDTO.id})}" method="post">
+                    <div class="mb-3">
+                        <label for="observacao" class="form-label">
+                            Motivo do Cancelamento * <small class="text-muted">(obrigatório)</small>
+                        </label>
+                        <textarea class="form-control" id="observacao" name="observacao" rows="4" 
+                                  placeholder="Descreva o motivo do cancelamento..." required></textarea>
+                    </div>
+                    
+                    <div class="alert alert-warning">
+                        <i class="bi bi-exclamation-triangle"></i> 
+                        <strong>Atenção:</strong> O cancelamento só pode ser realizado com pelo menos 1 dia de antecedência da data agendada.
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <a th:href="@{/reservas}" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Voltar
+                        </a>
+                        <button type="submit" class="btn btn-danger" 
+                                onclick="return confirm('Tem certeza que deseja cancelar esta reserva?')">
+                            <i class="bi bi-check-circle"></i> Confirmar Cancelamento
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
