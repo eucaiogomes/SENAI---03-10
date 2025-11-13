@@ -5,73 +5,11 @@
 
 Sistema web desenvolvido em Java Spring Boot para gerenciamento de reservas de espaços e equipamentos compartilhados de uma organização.
 
----
-
-## 🎓 DOCUMENTAÇÃO PARA APRENDER
-
-**Este projeto foi totalmente comentado! Use esses arquivos para aprender:**
-
-### 📖 [`EXPLICACAO_COMPLETA_DO_PROJETO.md`](EXPLICACAO_COMPLETA_DO_PROJETO.md)
-
-**COMECE AQUI!** Explica de forma bem simples:
-
-- O que o projeto faz
-- Os 3 "personagens" principais (Usuário, Recurso, Reserva)
-- Como tudo funciona (fluxos passo a passo)
-- O banco de dados
-- Segurança
-
-### 🗺️ [`GUIA_RAPIDO_ONDE_ESTA_CADA_COISA.md`](GUIA_RAPIDO_ONDE_ESTA_CADA_COISA.md)
-
-Guia de referência rápida:
-
-- Onde está cada arquivo
-- Pra que serve cada classe
-- Como procurar algo rápido
-- Ciclo de vida de uma requisição
-
-### 🎓 [`APRENDA_CONCEITOS_BASICOS.md`](APRENDA_CONCEITOS_BASICOS.md)
-
-Dicionário técnico com 20 conceitos importantes:
-
-- Classe, Objeto, Método
-- Variável, Array, List
-- If/Else, Loop, Exception
-- Getter/Setter, Static, Private
-- Annotations, Dependency Injection
-- E muito mais com exemplos!
-
-### 💻 **CÓDIGO COMENTADO**
 
 Abra qualquer arquivo `.java` e veja TONELADAS de comentários explicando cada coisa!
 
 ---
 
-## 📚 ORDEM DE LEITURA RECOMENDADA
-
-```
-Para iniciantes totais:
-
-Semana 1:
-  1. Leia APRENDA_CONCEITOS_BASICOS.md (20 min)
-  2. Leia EXPLICACAO_COMPLETA_DO_PROJETO.md (30 min)
-  3. Abra models/UsuarioModel.java (veja os comentários!)
-
-Semana 2:
-  4. Leia controller/LoginController.java
-  5. Leia service/UserService.java
-  6. Leia repository/UserRepository.java
-
-Semana 3:
-  7. Abra os outros Controllers
-  8. Abra os outros Services
-  9. Abra sessao/ControleSessao.java
-
-Semana 4:
-  10. Tente modificar algo pequenininho
-  11. Tente criar um novo método
-  12. Tente criar um novo Controller
-```
 
 ---
 
