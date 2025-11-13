@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Recursos</title>
+    <!-- Bootstrap CSS para estilizar a página -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Lista de Recursos</h1>
+        
+        <!-- Mostra mensagem de sucesso se houver -->
+        <div th:if="${sucesso}" class="alert alert-success">
+            <span th:text="${sucesso}"></span>
+        </div>
+        
+        <!-- Mostra mensagem de erro se houver -->
+        <div th:if="${erro}" class="alert alert-danger">
+            <span th:text="${erro}"></span>
+        </div>
+        
+        <!-- Botão para cadastrar novo recurso -->
+        <a href="/recursocadastro" class="btn btn-primary mb-3">Novo Recurso</a>
+        
+        <!-- Tabela que mostra todos os recursos -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Descrição</th>
+                    <th>Tipo</th>
+                    <th>Dias da Semana</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 
+                    th:each="recurso : ${recursos}" = para cada recurso na lista de recursos
+                    Cria uma linha na tabela para cada recurso
+                -->
+                <tr th:each="recurso : ${recursos}">
+                    <!-- Mostra o ID do recurso -->
+                    <td th:text="${recurso.id}"></td>
+                    <!-- Mostra a descrição do recurso -->
+                    <td th:text="${recurso.descricao}"></td>
+                    <!-- Mostra o tipo do recurso -->
+                    <td th:text="${recurso.tipo}"></td>
+                    <!-- 
+                        Mostra os dias da semana disponíveis
+                        #strings.listJoin = função do Thymeleaf para juntar uma lista com vírgula
+                        recurso.diasSemanaDisponivel = lista de dias que vem do banco
+                        ', ' = separador entre os dias (vírgula e espaço)
+                    -->
+                    <td th:text="${#strings.listJoin(recurso.diasSemanaDisponivel, ', ')}"></td>
+                    <td>
+                        <!-- Link para atualizar o recurso -->
+                        <!-- th:href="@{/recursoatualizar/{id}(id=${recurso.id})}" = vai para a rota /recursoatualizar/1 (onde 1 é o ID) -->
+                        <a th:href="@{/recursoatualizar/{id}(id=${recurso.id})}" class="btn btn-sm btn-warning">Atualizar</a>
+                        
+                        <!-- Formulário para excluir o recurso -->
+                        <!-- th:action="@{/recursoexcluir/{id}(id=${recurso.id})}" = quando enviar, vai para a rota /recursoexcluir/1 -->
+                        <form th:action="@{/recursoexcluir/{id}(id=${recurso.id})}" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza?')">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- Botão para voltar para a página inicial -->
+        <a href="/" class="btn btn-secondary">Voltar</a>
+    </div>
+</body>
+</html>
+

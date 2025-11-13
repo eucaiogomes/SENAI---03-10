@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Atualizar Usuário</title>
+    <!-- Bootstrap CSS para estilizar a página -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Atualizar Usuário</h1>
+        
+        <!-- Mostra mensagem de erro se houver -->
+        <div th:if="${erro}" class="alert alert-danger">
+            <span th:text="${erro}"></span>
+        </div>
+        
+        <!-- Formulário para atualizar usuário -->
+        <!-- th:action="@{/usuarioatualizar/{id}(id=${usuario.id})}" = quando enviar, vai para a rota /usuarioatualizar/1 (onde 1 é o ID) -->
+        <!-- th:object="${usuario}" = objeto que recebe os dados do formulário (já vem preenchido) -->
+        <!-- method="post" = envia os dados quando clicar em Atualizar -->
+        <form th:action="@{/usuarioatualizar/{id}(id=${usuario.id})}" th:object="${usuario}" method="post">
+            <!-- Campo escondido com o ID do usuário (necessário para saber qual usuário atualizar) -->
+            <input type="hidden" th:field="*{id}">
+            
+            <!-- Campo de nome (já vem preenchido com o nome atual) -->
+            <div class="mb-3">
+                <label class="form-label">Nome *</label>
+                <!-- th:field="*{nome}" = conecta este campo com o campo nome do objeto usuario -->
+                <input type="text" class="form-control" th:field="*{nome}" required>
+            </div>
+            
+            <!-- Campo de e-mail (já vem preenchido com o e-mail atual) -->
+            <div class="mb-3">
+                <label class="form-label">E-mail *</label>
+                <!-- th:field="*{email}" = conecta este campo com o campo email do objeto usuario -->
+                <input type="email" class="form-control" th:field="*{email}" required>
+            </div>
+            
+            <!-- Campo de senha (pode deixar em branco para não alterar) -->
+            <div class="mb-3">
+                <label class="form-label">Senha (deixe em branco para não alterar)</label>
+                <!-- th:field="*{senha}" = conecta este campo com o campo senha do objeto usuario -->
+                <input type="password" class="form-control" th:field="*{senha}">
+            </div>
+            
+            <!-- Campo de matrícula (já vem preenchido com a matrícula atual) -->
+            <div class="mb-3">
+                <label class="form-label">Matrícula *</label>
+                <!-- th:field="*{matricula}" = conecta este campo com o campo matricula do objeto usuario -->
+                <input type="text" class="form-control" th:field="*{matricula}" required>
+            </div>
+            
+            <!-- Campo de data de nascimento (já vem preenchido com a data atual) -->
+            <div class="mb-3">
+                <label class="form-label">Data de Nascimento *</label>
+                <!-- th:field="*{dataNascimento}" = conecta este campo com o campo dataNascimento do objeto usuario -->
+                <input type="date" class="form-control" th:field="*{dataNascimento}" required>
+            </div>
+            
+            <!-- Botão para atualizar o formulário -->
+            <button type="submit" class="btn btn-primary">Atualizar</button>
+            <!-- Botão para voltar para a lista -->
+            <a href="/usuariolista" class="btn btn-secondary">Voltar</a>
+        </form>
+    </div>
+</body>
+</html>
+

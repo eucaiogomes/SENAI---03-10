@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Reservas</title>
+    <!-- Bootstrap CSS para estilizar a página -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Lista de Reservas</h1>
+        
+        <!-- Mostra mensagem de sucesso se houver -->
+        <div th:if="${sucesso}" class="alert alert-success">
+            <span th:text="${sucesso}"></span>
+        </div>
+        
+        <!-- Mostra mensagem de erro se houver -->
+        <div th:if="${erro}" class="alert alert-danger">
+            <span th:text="${erro}"></span>
+        </div>
+        
+        <!-- Botão para cadastrar nova reserva -->
+        <a href="/reservacadastro" class="btn btn-primary mb-3">Nova Reserva</a>
+        
+        <!-- Tabela que mostra todas as reservas -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Colaborador</th>
+                    <th>Recurso</th>
+                    <th>Data</th>
+                    <th>Hora Inicial</th>
+                    <th>Hora Final</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 
+                    th:each="reserva : ${reservas}" = para cada reserva na lista de reservas
+                    Cria uma linha na tabela para cada reserva
+                -->
+                <tr th:each="reserva : ${reservas}">
+                    <!-- Mostra o ID da reserva -->
+                    <td th:text="${reserva.id}"></td>
+                    <!-- Mostra o nome do colaborador -->
+                    <td th:text="${reserva.nomeColaborador}"></td>
+                    <!-- Mostra a descrição do recurso -->
+                    <td th:text="${reserva.descricaoRecurso}"></td>
+                    <!-- 
+                        Formata a data para mostrar no formato brasileiro (dia/mês/ano)
+                        #temporals.format = função do Thymeleaf para formatar datas
+                        reserva.data = a data que vem do banco
+                        'dd/MM/yyyy' = formato desejado: dia/mês/ano (exemplo: 25/12/2024)
+                    -->
+                    <td th:text="${#temporals.format(reserva.data, 'dd/MM/yyyy')}"></td>
+                    <!-- 
+                        Formata a hora inicial para mostrar no formato (hora:minuto)
+                        reserva.horaInicial = a hora que vem do banco
+                        'HH:mm' = formato desejado: hora:minuto (exemplo: 14:30)
+                    -->
+                    <td th:text="${#temporals.format(reserva.horaInicial, 'HH:mm')}"></td>
+                    <!-- 
+                        Formata a hora final para mostrar no formato (hora:minuto)
+                        reserva.horaFinal = a hora que vem do banco
+                        'HH:mm' = formato desejado: hora:minuto (exemplo: 16:00)
+                    -->
+                    <td th:text="${#temporals.format(reserva.horaFinal, 'HH:mm')}"></td>
+                    <td>
+                        <!-- 
+                            Mostra "Ativa" se a reserva não foi cancelada
+                            th:if="${reserva.dataCancelamento == null}" = se a data de cancelamento for null (não cancelada)
+                        -->
+                        <span th:if="${reserva.dataCancelamento == null}" class="badge bg-success">Ativa</span>
+                        <!-- 
+                            Mostra "Cancelada" se a reserva foi cancelada
+                            th:if="${reserva.dataCancelamento != null}" = se a data de cancelamento não for null (foi cancelada)
+                        -->
+                        <span th:if="${reserva.dataCancelamento != null}" class="badge bg-danger">Cancelada</span>
+                    </td>
+                    <td>
+                        <!-- 
+                            Mostra botão Cancelar apenas se a reserva estiver ativa
+                            th:if="${reserva.dataCancelamento == null}" = só mostra se não foi cancelada
+                            th:href="@{/reservacancelar/{id}(id=${reserva.id})}" = vai para a rota /reservacancelar/1 (onde 1 é o ID)
+                        -->
+                        <a th:if="${reserva.dataCancelamento == null}" 
+                           th:href="@{/reservacancelar/{id}(id=${reserva.id})}" 
+                           class="btn btn-sm btn-warning">Cancelar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- Botão para voltar para a página inicial -->
+        <a href="/" class="btn btn-secondary">Voltar</a>
+    </div>
+</body>
+</html>
+

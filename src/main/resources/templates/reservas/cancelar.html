@@ -2,90 +2,60 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cancelar Reserva - Sistema de Agendamento</title>
+    <title>Cancelar Reserva</title>
+    <!-- Bootstrap CSS para estilizar a página -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" th:href="@{/}">
-                <i class="bi bi-calendar-check"></i> Sistema de Agendamento
-            </a>
-        </div>
-    </nav>
-    
     <div class="container mt-4">
-        <h1><i class="bi bi-x-circle"></i> Cancelar Reserva</h1>
+        <h1>Cancelar Reserva</h1>
         
-        <div th:if="${erro}" class="alert alert-danger alert-dismissible fade show">
+        <!-- Mostra mensagem de erro se houver -->
+        <div th:if="${erro}" class="alert alert-danger">
             <span th:text="${erro}"></span>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
         
-        <div class="card mb-4">
-            <div class="card-header">
-                <h5 class="mb-0">Dados da Reserva (Somente Leitura)</h5>
-            </div>
+        <!-- Card que mostra os dados da reserva -->
+        <div class="card mb-3">
             <div class="card-body">
-                <dl class="row">
-                    <dt class="col-sm-3">ID:</dt>
-                    <dd class="col-sm-9" th:text="${reservationDTO.id}"></dd>
-                    
-                    <dt class="col-sm-3">Colaborador:</dt>
-                    <dd class="col-sm-9" th:text="${reservationDTO.nomeColaborador}"></dd>
-                    
-                    <dt class="col-sm-3">Recurso:</dt>
-                    <dd class="col-sm-9" th:text="${reservationDTO.descricaoRecurso}"></dd>
-                    
-                    <dt class="col-sm-3">Data:</dt>
-                    <dd class="col-sm-9" th:text="${#temporals.format(reservationDTO.data, 'dd/MM/yyyy')}"></dd>
-                    
-                    <dt class="col-sm-3">Horário:</dt>
-                    <dd class="col-sm-9">
-                        <span th:text="${#temporals.format(reservationDTO.horaInicial, 'HH:mm')}"></span>
-                        - 
-                        <span th:text="${#temporals.format(reservationDTO.horaFinal, 'HH:mm')}"></span>
-                    </dd>
-                </dl>
+                <!-- Mostra o nome do colaborador -->
+                <p><strong>Colaborador:</strong> <span th:text="${reserva.nomeColaborador}"></span></p>
+                <!-- Mostra a descrição do recurso -->
+                <p><strong>Recurso:</strong> <span th:text="${reserva.descricaoRecurso}"></span></p>
+                <!-- 
+                    Formata a data para mostrar no formato brasileiro (dia/mês/ano)
+                    #temporals.format = função do Thymeleaf para formatar datas
+                    reserva.data = a data que vem do banco
+                    'dd/MM/yyyy' = formato desejado: dia/mês/ano (exemplo: 25/12/2024)
+                -->
+                <p><strong>Data:</strong> <span th:text="${#temporals.format(reserva.data, 'dd/MM/yyyy')}"></span></p>
+                <!-- 
+                    Formata as horas para mostrar no formato (hora:minuto)
+                    reserva.horaInicial = a hora inicial que vem do banco
+                    reserva.horaFinal = a hora final que vem do banco
+                    'HH:mm' = formato desejado: hora:minuto (exemplo: 14:30)
+                -->
+                <p><strong>Horário:</strong> <span th:text="${#temporals.format(reserva.horaInicial, 'HH:mm')}"></span> 
+                   até <span th:text="${#temporals.format(reserva.horaFinal, 'HH:mm')}"></span></p>
             </div>
         </div>
         
-        <div class="card">
-            <div class="card-header">
-                <h5 class="mb-0">Confirmar Cancelamento</h5>
+        <!-- Formulário para cancelar a reserva -->
+        <!-- th:action="@{/reservacancelar/{id}(id=${reserva.id})}" = quando enviar, vai para a rota /reservacancelar/1 (onde 1 é o ID) -->
+        <!-- method="post" = envia os dados quando clicar em Cancelar Reserva -->
+        <form th:action="@{/reservacancelar/{id}(id=${reserva.id})}" method="post">
+            <!-- Campo de observação (motivo do cancelamento) -->
+            <div class="mb-3">
+                <label class="form-label">Observação (motivo do cancelamento) *</label>
+                <!-- name="observacao" = nome do campo que será enviado para o controller -->
+                <textarea class="form-control" name="observacao" rows="3" required></textarea>
             </div>
-            <div class="card-body">
-                <form th:action="@{/reservas/{id}/cancelar(id=${reservationDTO.id})}" method="post">
-                    <div class="mb-3">
-                        <label for="observacao" class="form-label">
-                            Motivo do Cancelamento * <small class="text-muted">(obrigatório)</small>
-                        </label>
-                        <textarea class="form-control" id="observacao" name="observacao" rows="4" 
-                                  placeholder="Descreva o motivo do cancelamento..." required></textarea>
-                    </div>
-                    
-                    <div class="alert alert-warning">
-                        <i class="bi bi-exclamation-triangle"></i> 
-                        <strong>Atenção:</strong> O cancelamento só pode ser realizado com pelo menos 1 dia de antecedência da data agendada.
-                    </div>
-                    
-                    <div class="d-flex justify-content-between">
-                        <a th:href="@{/reservas}" class="btn btn-secondary">
-                            <i class="bi bi-arrow-left"></i> Voltar
-                        </a>
-                        <button type="submit" class="btn btn-danger" 
-                                onclick="return confirm('Tem certeza que deseja cancelar esta reserva?')">
-                            <i class="bi bi-check-circle"></i> Confirmar Cancelamento
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
+            
+            <!-- Botão para cancelar a reserva -->
+            <button type="submit" class="btn btn-danger">Cancelar Reserva</button>
+            <!-- Botão para voltar para a lista -->
+            <a href="/reservalista" class="btn btn-secondary">Voltar</a>
+        </form>
     </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-

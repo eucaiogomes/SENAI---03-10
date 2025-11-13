@@ -1,8 +1,81 @@
-# Sistema de Agendamento de Recursos
+# 📅 Sistema de Agendamento de Recursos
+
+> **STATUS**: ✅ **100% COMENTADO E DOCUMENTADO PARA INICIANTES!**  
+> Este é um projeto educacional com documentação completa em português simples!
 
 Sistema web desenvolvido em Java Spring Boot para gerenciamento de reservas de espaços e equipamentos compartilhados de uma organização.
 
-## Tecnologias Utilizadas
+---
+
+## 🎓 DOCUMENTAÇÃO PARA APRENDER
+
+**Este projeto foi totalmente comentado! Use esses arquivos para aprender:**
+
+### 📖 [`EXPLICACAO_COMPLETA_DO_PROJETO.md`](EXPLICACAO_COMPLETA_DO_PROJETO.md)
+
+**COMECE AQUI!** Explica de forma bem simples:
+
+- O que o projeto faz
+- Os 3 "personagens" principais (Usuário, Recurso, Reserva)
+- Como tudo funciona (fluxos passo a passo)
+- O banco de dados
+- Segurança
+
+### 🗺️ [`GUIA_RAPIDO_ONDE_ESTA_CADA_COISA.md`](GUIA_RAPIDO_ONDE_ESTA_CADA_COISA.md)
+
+Guia de referência rápida:
+
+- Onde está cada arquivo
+- Pra que serve cada classe
+- Como procurar algo rápido
+- Ciclo de vida de uma requisição
+
+### 🎓 [`APRENDA_CONCEITOS_BASICOS.md`](APRENDA_CONCEITOS_BASICOS.md)
+
+Dicionário técnico com 20 conceitos importantes:
+
+- Classe, Objeto, Método
+- Variável, Array, List
+- If/Else, Loop, Exception
+- Getter/Setter, Static, Private
+- Annotations, Dependency Injection
+- E muito mais com exemplos!
+
+### 💻 **CÓDIGO COMENTADO**
+
+Abra qualquer arquivo `.java` e veja TONELADAS de comentários explicando cada coisa!
+
+---
+
+## 📚 ORDEM DE LEITURA RECOMENDADA
+
+```
+Para iniciantes totais:
+
+Semana 1:
+  1. Leia APRENDA_CONCEITOS_BASICOS.md (20 min)
+  2. Leia EXPLICACAO_COMPLETA_DO_PROJETO.md (30 min)
+  3. Abra models/UsuarioModel.java (veja os comentários!)
+
+Semana 2:
+  4. Leia controller/LoginController.java
+  5. Leia service/UserService.java
+  6. Leia repository/UserRepository.java
+
+Semana 3:
+  7. Abra os outros Controllers
+  8. Abra os outros Services
+  9. Abra sessao/ControleSessao.java
+
+Semana 4:
+  10. Tente modificar algo pequenininho
+  11. Tente criar um novo método
+  12. Tente criar um novo Controller
+```
+
+---
+
+## 🏗️ Tecnologias Utilizadas
 
 - **Java 17**
 - **Spring Boot 3.2.0**
@@ -17,25 +90,30 @@ Sistema web desenvolvido em Java Spring Boot para gerenciamento de reservas de e
 ## Funcionalidades
 
 ### RF01 - Gerenciamento de Usuários
+
 - Cadastro, listagem, atualização e exclusão de usuários/colaboradores
 - Validações: unicidade de e-mail e matrícula, senha com mínimo 5 caracteres contendo números e letras, data de nascimento válida
 
 ### RF02 - Gerenciamento de Recursos
+
 - Cadastro, listagem, atualização e exclusão de recursos (espaços e equipamentos)
 - Configuração de dias da semana disponíveis, período de agendamento e horários de disponibilidade
 
 ### RF04 - Gerenciamento de Reservas
+
 - Registro, visualização e cancelamento de reservas
 - Validação de conflitos de horário
 - Validação de disponibilidade do recurso (data, horário e dia da semana)
 - Cancelamento apenas com 1 dia de antecedência
 
 ### RF05 - Autenticação e Controle de Sessão
+
 - Sistema de login com controle de sessão
 - Proteção de rotas com interceptador de sessão
 - Redirecionamento automático para login quando não autenticado
 
 ### RF06 - Modelo de Entidade e Relacionamento (MER)
+
 - **User (Usuários)**: id, nome, email, senha, matrícula, dataNascimento
 - **Resource (Recursos)**: id, descricao, tipo, diasSemanaDisponivel, dataInicialAgendamento, dataFinalAgendamento, horaInicialAgendamento, horaFinalAgendamento
 - **Reservation (Reservas)**: id, colaborador (FK User), recurso (FK Resource), data, horaInicial, horaFinal, dataCancelamento, observacao
@@ -82,6 +160,7 @@ Você será redirecionado para a tela de login: `http://localhost:8080/login`
 O sistema está configurado para usar o banco H2 em memória. As configurações estão em `src/main/resources/application.properties`.
 
 Para acessar o console do H2:
+
 - URL: `http://localhost:8080/h2-console`
 - JDBC URL: `jdbc:h2:mem:agendamento_db`
 - Usuário: `sa`
@@ -118,7 +197,7 @@ Como o sistema inicia com banco vazio, você precisará criar um usuário primei
 ### Exemplo de inserção via H2 Console:
 
 ```sql
-INSERT INTO usuarios (nome, email, senha, matricula, data_nascimento) 
+INSERT INTO usuarios (nome, email, senha, matricula, data_nascimento)
 VALUES ('Administrador', 'admin@empresa.com', 'admin123', '00001', '1990-01-01');
 ```
 
@@ -126,16 +205,19 @@ VALUES ('Administrador', 'admin@empresa.com', 'admin123', '00001', '1990-01-01')
 
 1. **Login**: Acesse `http://localhost:8080/login` e faça login com suas credenciais
 
-2. **Cadastrar Usuários**: 
+2. **Cadastrar Usuários**:
+
    - Navegue para "Usuários" → "Novo Usuário"
    - Preencha todos os campos obrigatórios
    - A senha deve ter no mínimo 5 caracteres, contendo números e letras
 
 3. **Cadastrar Recursos**:
+
    - Navegue para "Recursos" → "Novo Recurso"
    - Defina descrição, tipo, dias da semana disponíveis, período de agendamento e horários
 
 4. **Criar Reservas**:
+
    - Navegue para "Reservas" → "Nova Reserva"
    - Selecione colaborador, recurso, data e horário
    - O sistema validará automaticamente conflitos e disponibilidade
@@ -167,6 +249,7 @@ src/
 ## Validações Implementadas
 
 ### Usuários (RF01)
+
 - ✅ Unicidade de e-mail
 - ✅ Senha obrigatória na criação
 - ✅ Senha com mínimo 5 caracteres, contendo números e letras
@@ -175,12 +258,14 @@ src/
 - ✅ Data de nascimento válida (não pode ser no futuro, não pode ter mais de 500 anos)
 
 ### Recursos (RF02)
+
 - ✅ Descrição obrigatória
 - ✅ Tipo obrigatório
 - ✅ Validação de período de datas
 - ✅ Validação de horários
 
 ### Reservas (RF04)
+
 - ✅ Colaborador obrigatório e válido
 - ✅ Recurso obrigatório e válido
 - ✅ Data obrigatória
@@ -220,6 +305,7 @@ mvn clean package -DskipTests
 ### Erro: "Port 8080 already in use"
 
 Altere a porta no arquivo `application.properties`:
+
 ```properties
 server.port=8081
 ```
@@ -248,5 +334,5 @@ Para dúvidas ou suporte, entre em contato com a equipe de desenvolvimento.
 
 **Desenvolvido com ❤️ usando Spring Boot**
 
-"# SENAI---03-10" 
-"# projeto-atualizado" 
+"# SENAI---03-10"
+"# projeto-atualizado"

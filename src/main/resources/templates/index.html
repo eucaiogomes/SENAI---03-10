@@ -2,77 +2,58 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - Sistema de Agendamento</title>
+    <title>Página Inicial</title>
+    <!-- Bootstrap CSS para estilizar a página -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" th:href="@{/}">
-                <i class="bi bi-calendar-check"></i> Sistema de Agendamento
-            </a>
-            <div class="navbar-nav ms-auto">
-                <a class="nav-link" th:href="@{/logout}">
-                    <i class="bi bi-box-arrow-right"></i> Sair
-                </a>
-            </div>
-        </div>
-    </nav>
-    
     <div class="container mt-4">
-        <div class="row">
-            <div class="col-12">
-                <h1 class="mb-4">
-                    <i class="bi bi-house-door"></i> Bem-vindo ao Sistema de Agendamento
-                </h1>
+        <h1>Bem-vindo ao Sistema de Agendamento</h1>
+        
+        <!-- Menu de navegação -->
+        <div class="row mt-4">
+            <!-- Link para lista de usuários -->
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5>Gerenciar Usuários</h5>
+                        <p>Cadastre e gerencie usuários</p>
+                        <!-- th:href="@{/usuariolista}" = link que vai para a rota /usuariolista -->
+                        <a th:href="@{/usuariolista}" class="btn btn-primary">Acessar</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Link para lista de recursos -->
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5>Gerenciar Recursos</h5>
+                        <p>Cadastre salas e equipamentos</p>
+                        <!-- th:href="@{/recursolista}" = link que vai para a rota /recursolista -->
+                        <a th:href="@{/recursolista}" class="btn btn-success">Acessar</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Link para lista de reservas -->
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h5>Gerenciar Reservas</h5>
+                        <p>Visualize e gerencie reservas</p>
+                        <!-- th:href="@{/reservalista}" = link que vai para a rota /reservalista -->
+                        <a th:href="@{/reservalista}" class="btn btn-warning">Acessar</a>
+                    </div>
+                </div>
             </div>
         </div>
         
-        <div class="row">
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body text-center">
-                        <i class="bi bi-people text-primary" style="font-size: 3rem;"></i>
-                        <h5 class="card-title mt-3">Gerenciar Usuários</h5>
-                        <p class="card-text">Cadastre e gerencie usuários e colaboradores do sistema</p>
-                        <a th:href="@{/usuarios}" class="btn btn-primary">
-                            <i class="bi bi-arrow-right"></i> Acessar
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body text-center">
-                        <i class="bi bi-box text-success" style="font-size: 3rem;"></i>
-                        <h5 class="card-title mt-3">Gerenciar Recursos</h5>
-                        <p class="card-text">Cadastre espaços e equipamentos disponíveis para reserva</p>
-                        <a th:href="@{/recursos}" class="btn btn-success">
-                            <i class="bi bi-arrow-right"></i> Acessar
-                        </a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body text-center">
-                        <i class="bi bi-calendar-event text-warning" style="font-size: 3rem;"></i>
-                        <h5 class="card-title mt-3">Gerenciar Reservas</h5>
-                        <p class="card-text">Visualize e gerencie as reservas de recursos</p>
-                        <a th:href="@{/reservas}" class="btn btn-warning">
-                            <i class="bi bi-arrow-right"></i> Acessar
-                        </a>
-                    </div>
-                </div>
-            </div>
+        <!-- Link para sair (logout) -->
+        <div class="mt-4">
+            <a th:href="@{/logout}" class="btn btn-secondary">Sair</a>
         </div>
     </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
 

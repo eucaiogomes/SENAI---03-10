@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Recurso</title>
+    <!-- Bootstrap CSS para estilizar a página -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Cadastro de Recurso</h1>
+        
+        <!-- Mostra mensagem de erro se houver -->
+        <div th:if="${erro}" class="alert alert-danger">
+            <span th:text="${erro}"></span>
+        </div>
+        
+        <!-- Formulário para cadastrar novo recurso -->
+        <!-- th:action="@{/recursocadastro}" = quando enviar, vai para a rota /recursocadastro -->
+        <!-- th:object="${recurso}" = objeto que recebe os dados do formulário -->
+        <!-- method="post" = envia os dados quando clicar em Salvar -->
+        <form th:action="@{/recursocadastro}" th:object="${recurso}" method="post">
+            <!-- Campo de descrição -->
+            <div class="mb-3">
+                <label class="form-label">Descrição *</label>
+                <!-- th:field="*{descricao}" = conecta este campo com o campo descricao do objeto recurso -->
+                <input type="text" class="form-control" th:field="*{descricao}" required>
+            </div>
+            
+            <!-- Campo de tipo -->
+            <div class="mb-3">
+                <label class="form-label">Tipo * (ex: sala, equipamento)</label>
+                <!-- th:field="*{tipo}" = conecta este campo com o campo tipo do objeto recurso -->
+                <input type="text" class="form-control" th:field="*{tipo}" required>
+            </div>
+            
+            <!-- Checkboxes para dias da semana -->
+            <div class="mb-3">
+                <label class="form-label">Dias da Semana Disponíveis</label>
+                <!-- 
+                    th:each="dia, iterStat : ${diasSemana}" = para cada dia na lista de dias da semana
+                    Cria um checkbox para cada dia
+                -->
+                <div th:each="dia, iterStat : ${diasSemana}">
+                    <div class="form-check">
+                        <!-- 
+                            type="checkbox" = cria uma caixa de seleção
+                            th:value="${dia}" = valor do checkbox (ex: "segunda-feira")
+                            th:field="*{diasSemanaDisponivel}" = conecta com a lista de dias selecionados
+                        -->
+                        <input class="form-check-input" type="checkbox" th:value="${dia}" 
+                               th:field="*{diasSemanaDisponivel}" th:id="${'dia_' + iterStat.index}">
+                        <!-- Label do checkbox -->
+                        <label class="form-check-label" th:for="${'dia_' + iterStat.index}" th:text="${dia}"></label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Campo de data inicial -->
+            <div class="mb-3">
+                <label class="form-label">Data Inicial de Agendamento *</label>
+                <!-- th:field="*{dataInicialAgendamento}" = conecta este campo com o campo dataInicialAgendamento do objeto recurso -->
+                <input type="date" class="form-control" th:field="*{dataInicialAgendamento}" required>
+            </div>
+            
+            <!-- Campo de data final -->
+            <div class="mb-3">
+                <label class="form-label">Data Final de Agendamento *</label>
+                <!-- th:field="*{dataFinalAgendamento}" = conecta este campo com o campo dataFinalAgendamento do objeto recurso -->
+                <input type="date" class="form-control" th:field="*{dataFinalAgendamento}" required>
+            </div>
+            
+            <!-- Campo de hora inicial -->
+            <div class="mb-3">
+                <label class="form-label">Hora Inicial *</label>
+                <!-- th:field="*{horaInicialAgendamento}" = conecta este campo com o campo horaInicialAgendamento do objeto recurso -->
+                <input type="time" class="form-control" th:field="*{horaInicialAgendamento}" required>
+            </div>
+            
+            <!-- Campo de hora final -->
+            <div class="mb-3">
+                <label class="form-label">Hora Final *</label>
+                <!-- th:field="*{horaFinalAgendamento}" = conecta este campo com o campo horaFinalAgendamento do objeto recurso -->
+                <input type="time" class="form-control" th:field="*{horaFinalAgendamento}" required>
+            </div>
+            
+            <!-- Botão para salvar o formulário -->
+            <button type="submit" class="btn btn-primary">Salvar</button>
+            <!-- Botão para voltar para a lista -->
+            <a href="/recursolista" class="btn btn-secondary">Voltar</a>
+        </form>
+    </div>
+</body>
+</html>
+

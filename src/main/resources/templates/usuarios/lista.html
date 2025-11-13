@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Usuários</title>
+    <!-- Bootstrap CSS para estilizar a página -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Lista de Usuários</h1>
+        
+        <!-- Mostra mensagem de sucesso se houver -->
+        <div th:if="${sucesso}" class="alert alert-success">
+            <span th:text="${sucesso}"></span>
+        </div>
+        
+        <!-- Mostra mensagem de erro se houver -->
+        <div th:if="${erro}" class="alert alert-danger">
+            <span th:text="${erro}"></span>
+        </div>
+        
+        <!-- Botão para cadastrar novo usuário -->
+        <a href="/usuariocadastro" class="btn btn-primary mb-3">Novo Usuário</a>
+        
+        <!-- Tabela que mostra todos os usuários -->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>E-mail</th>
+                    <th>Matrícula</th>
+                    <th>Data Nascimento</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 
+                    th:each="usuario : ${usuarios}" = para cada usuário na lista de usuários
+                    Cria uma linha na tabela para cada usuário
+                -->
+                <tr th:each="usuario : ${usuarios}">
+                    <!-- Mostra o ID do usuário -->
+                    <td th:text="${usuario.id}"></td>
+                    <!-- Mostra o nome do usuário -->
+                    <td th:text="${usuario.nome}"></td>
+                    <!-- Mostra o e-mail do usuário -->
+                    <td th:text="${usuario.email}"></td>
+                    <!-- Mostra a matrícula do usuário -->
+                    <td th:text="${usuario.matricula}"></td>
+                    <!-- 
+                        Formata a data de nascimento para mostrar no formato brasileiro (dia/mês/ano)
+                        #temporals.format = função do Thymeleaf para formatar datas
+                        usuario.dataNascimento = a data que vem do banco
+                        'dd/MM/yyyy' = formato desejado: dia/mês/ano (exemplo: 25/12/1990)
+                    -->
+                    <td th:text="${#temporals.format(usuario.dataNascimento, 'dd/MM/yyyy')}"></td>
+                    <td>
+                        <!-- Link para atualizar o usuário -->
+                        <!-- th:href="@{/usuarioatualizar/{id}(id=${usuario.id})}" = vai para a rota /usuarioatualizar/1 (onde 1 é o ID) -->
+                        <a th:href="@{/usuarioatualizar/{id}(id=${usuario.id})}" class="btn btn-sm btn-warning">Atualizar</a>
+                        
+                        <!-- Formulário para excluir o usuário -->
+                        <!-- th:action="@{/usuarioexcluir/{id}(id=${usuario.id})}" = quando enviar, vai para a rota /usuarioexcluir/1 -->
+                        <form th:action="@{/usuarioexcluir/{id}(id=${usuario.id})}" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Tem certeza?')">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- Botão para voltar para a página inicial -->
+        <a href="/" class="btn btn-secondary">Voltar</a>
+    </div>
+</body>
+</html>
+
