@@ -1,9 +1,7 @@
 package com.empresa.agendamento.controller;
 
 import com.empresa.agendamento.dtos.UsuarioDto;
-import com.empresa.agendamento.dtos.UsuarioSessaoDto;
 import com.empresa.agendamento.service.UserService;
-import com.empresa.agendamento.sessao.ControleSessao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,18 +20,14 @@ public class UserController {
     
     @GetMapping
     public String listar(Model model, HttpServletRequest request) {
-        if (!validarSessao(request, model)) {
-            return "redirect:/login";
-        }
+       
         model.addAttribute("usuarios", userService.listarTodos());
         return "usuarios/listar";
     }
     
     @GetMapping("/novo")
     public String mostrarFormularioCadastro(Model model, HttpServletRequest request) {
-        if (!validarSessao(request, model)) {
-            return "redirect:/login";
-        }
+        
         model.addAttribute("userDTO", new UsuarioDto());
         return "usuarios/formulario";
     }
@@ -41,9 +35,7 @@ public class UserController {
     @PostMapping
     public String salvar(@Valid @ModelAttribute UsuarioDto userDTO, BindingResult result,
                         Model model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
-        if (!validarSessao(request, model)) {
-            return "redirect:/login";
-        }
+       
         
         if (result.hasErrors()) {
             return "usuarios/formulario";
@@ -61,9 +53,7 @@ public class UserController {
     
     @GetMapping("/{id}/editar")
     public String mostrarFormularioEdicao(@PathVariable Long id, Model model, HttpServletRequest request) {
-        if (!validarSessao(request, model)) {
-            return "redirect:/login";
-        }
+     
         try {
             UsuarioDto userDTO = userService.buscarPorId(id);
             model.addAttribute("userDTO", userDTO);
@@ -77,9 +67,7 @@ public class UserController {
     public String atualizar(@PathVariable Long id, @Valid @ModelAttribute UsuarioDto userDTO,
                            BindingResult result, Model model, HttpServletRequest request,
                            RedirectAttributes redirectAttributes) {
-        if (!validarSessao(request, model)) {
-            return "redirect:/login";
-        }
+       
         
         if (result.hasErrors()) {
             return "usuarios/formulario";
@@ -98,9 +86,7 @@ public class UserController {
     @PostMapping("/{id}/excluir")
     public String excluir(@PathVariable Long id, RedirectAttributes redirectAttributes,
                          HttpServletRequest request) {
-        if (!validarSessao(request, null)) {
-            return "redirect:/login";
-        }
+    
         
         try {
             userService.excluir(id);
@@ -111,15 +97,6 @@ public class UserController {
         return "redirect:/usuarios";
     }
     
-    private boolean validarSessao(HttpServletRequest request, Model model) {
-        UsuarioSessaoDto usuario = ControleSessao.obter(request);
-        if (usuario == null || usuario.getId() == null) {
-            return false;
-        }
-        if (model != null) {
-            model.addAttribute("usuarioLogado", usuario);
-        }
-        return true;
-    }
+
 }
 

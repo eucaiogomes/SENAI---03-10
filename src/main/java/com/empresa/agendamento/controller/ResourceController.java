@@ -132,15 +132,6 @@ public class ResourceController {
         );
     }
     
-    private boolean validarSessao(HttpServletRequest request, Model model) {
-        UsuarioSessaoDto usuario = ControleSessao.obter(request);
-        if (usuario == null || usuario.getId() == null) {
-            return false;
-        }
-        if (model != null) {
-            model.addAttribute("usuarioLogado", usuario);
-        }
-        return true;
-    }
+  
 }
 
